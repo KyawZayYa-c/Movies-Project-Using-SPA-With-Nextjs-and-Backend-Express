@@ -18,7 +18,7 @@ const MovieSchema = new Schema({
         },
         required : false,
     },
-    rear : {
+    year : {
         type : Number,
         required : false,
     }

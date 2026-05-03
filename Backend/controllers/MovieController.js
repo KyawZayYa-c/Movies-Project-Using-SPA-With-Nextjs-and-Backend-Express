@@ -21,8 +21,10 @@ const getById = async (req, res) => {
 
 const saveMovie = async (req, res) => {
     const data = req.body;
+    console.log(req.body);
     try{
         let movies = await MovieService.saveMovie(data);
+        console.log('response', movies);
         res.status(201).json(movies);
     }catch (error){
         res.status(400).json(error.message);
