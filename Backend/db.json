@@ -1,0 +1,4 @@
+
+db.inventory.insertOne(
+  { item: "journal", qty: 40, size: { h: 14, w: 21, uom: "cm" }, status: "C" },
+ );
