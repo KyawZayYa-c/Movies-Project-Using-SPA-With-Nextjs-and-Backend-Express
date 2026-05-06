@@ -53,6 +53,23 @@ export const reviewApiSlice = movieApiSlice.injectEndpoints({
                         patchResult.undo();
                     }
             }
+        }),
+        //optimistic update is Ui first show
+        updateReview : build.mutation<Review, Review>({
+            query : (review : Review) => ({
+                url : `/reviews/${review._id}`,
+                method : 'PUT',
+                body : review,
+            }),
+            async onQueryStarted(review : Review , {dispatch , queryFulfilled}) {
+                const patchResult = dispatch(
+                    reviewApiSlice.util.updateQueryData('getAllReviewByMovieId', review.movie, (draft)=>{
+                        console.log('Draft : ', draft);
+                        draft = draft.map((r: Review) => r._id == review._id?  review : r)
+                        return draft;
+                    })
+                )
+}
         })
     }),
 
@@ -62,7 +79,7 @@ export const reviewApiSlice = movieApiSlice.injectEndpoints({
 export const {
     useGetAllReviewByMovieIdQuery,
     useSaveReviewMutation,
-    useDeleteReviewMutation
+    useDeleteReviewMutation,
+    useUpdateReviewMutation,
 } = reviewApiSlice;
 
-//59

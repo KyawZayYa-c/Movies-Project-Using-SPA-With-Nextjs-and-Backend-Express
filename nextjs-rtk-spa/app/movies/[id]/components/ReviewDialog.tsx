@@ -15,7 +15,7 @@ import {ReviewSchema, ReviewSchemaForm} from "@/lib/schema/reviewSchema";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import {useState} from "react";
-import {useSaveReviewMutation} from "@/lib/features/review/reviewApiSlice";
+import {useSaveReviewMutation, useUpdateReviewMutation} from "@/lib/features/review/reviewApiSlice";
 
 interface ReviewDialogProps {
     movieId : string;
@@ -27,7 +27,7 @@ interface ReviewDialogProps {
 export default function ReviewDialog({movieId, reviewToEdit, open, setOpen}: ReviewDialogProps) {
     const [rating, setRating] = useState(reviewToEdit? reviewToEdit.rating : 0);
     const [saveReview, SaveReviewResult] = useSaveReviewMutation();
-
+    const [updateReview, updateReviewResult] = useUpdateReviewMutation();
     const {
         register,
         handleSubmit,
@@ -55,8 +55,19 @@ export default function ReviewDialog({movieId, reviewToEdit, open, setOpen}: Rev
     const onSubmit = (data : ReviewSchemaForm) => {
 
         if(reviewToEdit){
-            console.log('review updated', data);
-            setOpen(false);
+            if (reviewToEdit) {
+                let reviewToUpdate = {
+                    ...reviewToEdit,
+                    ...data,
+                    movie: movieId, // movieId က prop ကနေလာတဲ့ string ဖြစ်လို့ ဒါကိုထည့်လိုက်ရင် format အမြဲမှန်ပါတယ် save ဖြစ်အောင်လို့ပါ backend နဲံ ချိတ် ရင် မပါလဲ ရပ့ါတယ
+                };
+
+                console.log("Check format before API call:", reviewToUpdate);
+                updateReview(reviewToUpdate)
+                    .unwrap()
+                    .then(() => setOpen(false));
+
+            }
         }else {
             let reviewToSave : Partial<Review> = {
                 ...data,
@@ -68,10 +79,11 @@ export default function ReviewDialog({movieId, reviewToEdit, open, setOpen}: Rev
                 .unwrap()
                 .then(() => {
                     reset();
+                    setRating(0);
                     setOpen(false);
                  })
         }
-        
+
     }
 
 
@@ -95,7 +107,7 @@ export default function ReviewDialog({movieId, reviewToEdit, open, setOpen}: Rev
                         </DialogTitle>
                         <DialogContent>
                             <Stack spacing={1}>
-                                <Rating name="half-rating-read" defaultValue={rating}
+                                <Rating name="half-rating-read" value={rating}
                                         onChange={(event, newValue) => {
                                             ratingChangeHandler(newValue);
                                         }}

@@ -4,7 +4,7 @@ const ReviewController = require('../controllers/ReviewController');
 
 router.get('/movies/:movieId', ReviewController.getAllReviewsByMovieId);
 router.post('/', ReviewController.saveReview);
-router.post('/:id', ReviewController.updateReview);
+router.put('/:id', ReviewController.updateReview);
 router.delete('/:id', ReviewController.deleteReview);
 
 module.exports = router;

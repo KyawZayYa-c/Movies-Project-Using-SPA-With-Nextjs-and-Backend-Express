@@ -2,7 +2,7 @@ const Review = require('../models/Reviews');
 const Movie = require('../models/Movies');
 const mongoose = require('mongoose');
 async function getAllReviewsByMovieId(movieId) {
-    let reviews = await Review.find({ movie: movieId }).populate('movie');
+    let reviews = await Review.find({ movie: movieId });
     return reviews;
 }
 

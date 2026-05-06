@@ -49,7 +49,7 @@ export default function ReviewUI({review} : ReviewUI){
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent >
                     <Stack spacing={1}>
-                        <Rating name="half-rating-read" defaultValue={review?.rating} readOnly />
+                        <Rating name="half-rating-read" value={review?.rating} readOnly />
                     </Stack>
                     <Typography component="div" variant="h5">
                         {review.review}
@@ -65,3 +65,4 @@ export default function ReviewUI({review} : ReviewUI){
         </Card>
     </div>)
 }
+
