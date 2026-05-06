@@ -15,32 +15,25 @@ import {ReviewSchema, ReviewSchemaForm} from "@/lib/schema/reviewSchema";
 import Rating from "@mui/material/Rating";
 import Stack from "@mui/material/Stack";
 import {useState} from "react";
+import {useSaveReviewMutation} from "@/lib/features/review/reviewApiSlice";
 
 interface ReviewDialogProps {
+    movieId : string;
     reviewToEdit?: Review;
     open: boolean;
     setOpen: (open: boolean) => void;
 }
 
-export default function ReviewDialog({reviewToEdit, open, setOpen}: ReviewDialogProps) {
+export default function ReviewDialog({movieId, reviewToEdit, open, setOpen}: ReviewDialogProps) {
     const [rating, setRating] = useState(reviewToEdit? reviewToEdit.rating : 0);
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const onSubmit = (data : ReviewSchemaForm) => {
-        console.log('form submitted', data);
-    }
+    const [saveReview, SaveReviewResult] = useSaveReviewMutation();
 
     const {
         register,
         handleSubmit,
         watch,
         setValue,
+        reset,
         formState: { errors, touchedFields },
     } = useForm<ReviewSchemaForm>({
         resolver : zodResolver(ReviewSchema),
@@ -50,6 +43,38 @@ export default function ReviewDialog({reviewToEdit, open, setOpen}: ReviewDialog
 
         }
     })
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const onSubmit = (data : ReviewSchemaForm) => {
+
+        if(reviewToEdit){
+            console.log('review updated', data);
+            setOpen(false);
+        }else {
+            let reviewToSave : Partial<Review> = {
+                ...data,
+                movie: movieId
+            }
+            console.log('form submitted', reviewToSave);
+
+            saveReview(reviewToSave)
+                .unwrap()
+                .then(() => {
+                    reset();
+                    setOpen(false);
+                 })
+        }
+        
+    }
+
+
 
     const ratingChangeHandler =(value: number | null)=>{
         let num= value??0;
@@ -102,3 +127,4 @@ export default function ReviewDialog({reviewToEdit, open, setOpen}: ReviewDialog
         );
     }
 }
+

@@ -6,13 +6,9 @@ var logger = require('morgan');
 const cors = require('cors');
 
 const {db} = require('./config/database');
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-const demoRouter = require('./routes/demo');
 const adminRouter = require('./routes/admin');
 const customLogger = require('./middleware/customLogger');
 const adminAuth = require('./middleware/adminAuth');
-const todoRouter = require('./routes/todos');
 const moviesRouter = require('./routes/movie');
 const reviewsRouter = require('./routes/review');
 const userRouter = require('./routes/user');
@@ -38,11 +34,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/demo',demoRouter);
 app.use('/admin', adminRouter);
-app.use('/api/todos', todoRouter);
 app.use('/api/movies',/* auth.verifyToken,*/ moviesRouter);
 app.use('/api/reviews', reviewsRouter);
 app.use('/api/users',/* auth.verifyToken,*/ userRouter);

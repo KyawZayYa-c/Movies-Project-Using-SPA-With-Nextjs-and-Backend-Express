@@ -6,6 +6,7 @@ import ReviewUI from "@/app/movies/[id]/components/ReviewUI";
 import Button from "@mui/material/Button";
 import EditMovie from "@/app/movies/components/EditMovie";
 import ReviewEntry from "@/app/movies/[id]/components/ReviewEntry";
+import {useGetAllReviewByMovieIdQuery} from "@/lib/features/review/reviewApiSlice";
 
 interface MovieDetailsUI{
     movie : Movie;
@@ -33,11 +34,12 @@ function renderAciton(movie: Movie){
 }
 
 export default function MovieDetailsUI({movie}:MovieDetailsUI){
+    const {data: reviews, isError, isLoading, isSuccess} = useGetAllReviewByMovieIdQuery(movie._id);
     return (<div>
         <MovieUi movie={movie} render={renderAciton} />
-        <ReviewEntry />
+        <ReviewEntry movieId={movie._id} />
         {
-            reviews.map(review => <ReviewUI
+           isSuccess && reviews.length > 0 && reviews.map(review => <ReviewUI
                             key={review._id}
                             review={review}
             />)

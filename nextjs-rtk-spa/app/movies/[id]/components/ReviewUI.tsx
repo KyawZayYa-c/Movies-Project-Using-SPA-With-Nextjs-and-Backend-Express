@@ -8,6 +8,7 @@ import Button from "@mui/material/Button";
 import {useState} from "react";
 import ConfirmDialog from "@/app/components/ConfirmDialog";
 import ReviewDialog from "@/app/movies/[id]/components/ReviewDialog";
+import {useDeleteReviewMutation} from "@/lib/features/review/reviewApiSlice";
 
 interface ReviewUI{
     review : Review;
@@ -16,11 +17,16 @@ interface ReviewUI{
 export default function ReviewUI({review} : ReviewUI){
     const [openConfirm, setOpenConfirm] = useState(false);
     const [open, setOpen] = useState(false);
+    const [deleteReview, deleteReviewResult] = useDeleteReviewMutation();
     const handleClickOpen = () => {
         setOpen(true);
     }
     const onOkHandler = () => {
         console.log('Ok handler');
+        deleteReview(review)
+            .then(() => {
+                console.log('Review successfully deleted');
+            })
     }
     const onCancelHandler = () => {
         console.log('Cancel handler');
@@ -38,7 +44,7 @@ export default function ReviewUI({review} : ReviewUI){
             onCancel={onCancelHandler}
             setOpen={setOpenConfirm}
         />
-        <ReviewDialog open={open} setOpen={setOpen} reviewToEdit={review} />
+        <ReviewDialog open={open} setOpen={setOpen} reviewToEdit={review} movieId={review.movie} />
         <Card sx={{ display: 'flex' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <CardContent >
