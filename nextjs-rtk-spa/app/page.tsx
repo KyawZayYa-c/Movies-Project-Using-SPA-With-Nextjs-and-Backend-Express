@@ -1,13 +1,18 @@
+'use client'
 import type { Metadata } from "next";
 import { Counter } from "./components/counter/Counter";
 import Button from '@mui/material/Button';
+import {withAuth} from "@/app/components/withAuth";
 
-export default function IndexPage() {
+ function IndexPage() {
   return (<div>
-    <Button variant="contained">Hello world</Button>
+    <Button variant="contained">Home Page</Button>
   </div>);
 }
 
-export const metadata: Metadata = {
-  title: "Redux Toolkit",
-};
+// export const metadata: Metadata = {
+//   title: "SPA MOVIE PROJECT",
+// };
+
+const HomeWithAuth = withAuth(IndexPage);
+export default HomeWithAuth;

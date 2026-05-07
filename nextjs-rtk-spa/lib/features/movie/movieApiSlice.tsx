@@ -3,9 +3,20 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {Movie} from "@/lib/types";
 import {quotesApiSlice} from "@/lib/features/quotes/quotesApiSlice";
 import {draftMode} from "next/dist/server/request/draft-mode";
+import {RootState} from "@/lib/store";
 console.log('base Url', process.env.NEXT_PUBLIC_BASE_URL);
 export const movieApiSlice = createApi({
-    baseQuery : fetchBaseQuery({baseUrl : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000/api"}),
+    baseQuery : fetchBaseQuery({
+        baseUrl : process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000/api",
+
+        prepareHeaders : (headers , {getState }) =>{
+            const token = (getState() as RootState).auth.token;
+            if(token){
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+            return headers;
+        }
+    }),
     reducerPath :"moviesApi",
     tagTypes : ["Movies"],
     endpoints : (build) => ({

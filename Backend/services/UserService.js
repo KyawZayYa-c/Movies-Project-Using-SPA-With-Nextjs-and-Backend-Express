@@ -19,7 +19,7 @@ async function registerUser(user) {
         role : registeredUser.role,
     }
     const token = jwt.sign(payload, config.TOKEN_SECRET);
-    return token;
+    return {token};
 }
 
 async function loginUser(user) {
@@ -39,7 +39,7 @@ async function loginUser(user) {
                 role : Loginuser.role,
             }
             const token = jwt.sign(payload, config.TOKEN_SECRET);
-            return token;
+            return {token};
         }
     }
 }

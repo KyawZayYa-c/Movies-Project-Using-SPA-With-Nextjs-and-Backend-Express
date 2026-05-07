@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import MovieDialog from "@/app/movies/components/MovieDialog";
 import NewMovieEntry from "@/app/movies/components/NewMovieEntry";
 import {useGetAllMoviesQuery} from "@/lib/features/movie/movieApiSlice";
+import {withAuth} from "@/app/components/withAuth";
 
 const movies : Movie[] = [
     {
@@ -90,7 +91,7 @@ const movies : Movie[] = [
     }
 ]
 
-export default function MoviePage(){
+ function MoviePage(){
     const {data, isError, isLoading, isSuccess} = useGetAllMoviesQuery(undefined);
     return (<div className={'movies-page-container'}>
         <NewMovieEntry />
@@ -101,5 +102,5 @@ export default function MoviePage(){
     </div>)
 }
 
-//1 : 41
-
+const MovieWithAuth = withAuth(MoviePage);
+export default MovieWithAuth;

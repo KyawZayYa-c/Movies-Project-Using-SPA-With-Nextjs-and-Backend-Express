@@ -35,8 +35,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/admin', adminRouter);
-app.use('/api/movies',/* auth.verifyToken,*/ moviesRouter);
-app.use('/api/reviews', reviewsRouter);
+app.use('/api/movies', auth.verifyToken, moviesRouter);
+app.use('/api/reviews', auth.verifyToken, reviewsRouter);
 app.use('/api/users',/* auth.verifyToken,*/ userRouter);
 
 // catch 404 and forward to error handler

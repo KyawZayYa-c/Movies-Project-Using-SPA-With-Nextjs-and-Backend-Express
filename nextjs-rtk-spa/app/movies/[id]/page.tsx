@@ -6,6 +6,7 @@ import {Movie} from "@/lib/types";
 import Button from "@mui/material/Button";
 import {useRouter} from "next/navigation";
 import {useGetAllMoviesQuery} from "@/lib/features/movie/movieApiSlice";
+import {withAuth} from "@/app/components/withAuth";
 
 const movie : Movie = {
     "_id": "69f6d27693b9e73c665b1f20",
@@ -18,7 +19,7 @@ const movie : Movie = {
     "year": 2025
 };
 
-export default function MovieDetailPage(){
+function MovieDetailPage(){
     const {id} : {id : string} = useParams<{id : string}>();
     console.log('movie id ', id)
     const router = useRouter();
@@ -43,3 +44,5 @@ export default function MovieDetailPage(){
         </div>)
     }
 }
+const MovieDetailWithAuth = withAuth(MovieDetailPage);
+export default MovieDetailWithAuth

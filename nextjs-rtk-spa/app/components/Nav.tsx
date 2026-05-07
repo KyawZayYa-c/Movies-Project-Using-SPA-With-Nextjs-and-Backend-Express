@@ -8,6 +8,7 @@ import {useState} from "react";
 import { AppBar, Box, MenuItem, Container, Button, IconButton, Menu, Toolbar, Typography, Tooltip, Avatar } from "@mui/material";
 import AdbIcon from '@mui/icons-material/Adb';
 import MenuIcon from '@mui/icons-material/Menu';
+import useAuth from "@/app/hooks/useAuth";
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -15,7 +16,7 @@ export const Nav = () => {
   const pathname = usePathname();
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
+    const auth = useAuth();
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
     };
@@ -113,11 +114,27 @@ export const Nav = () => {
                              href={'/'}
                              style={{color:"white", textDecoration:'none', opacity : 1, padding : 10}}
                          >Home</Link>
+                        {
+                            auth &&    <Link
+                                href={'/movies'}
+                                style={navLinksStyle}
+                            >Movies</Link>
+                        }
 
-                        <Link
-                            href={'/movies'}
-                            style={navLinksStyle}
-                        >Movies</Link>
+                        {
+                            !auth &&  <Link
+                                href={'/login'}
+                                style={navLinksStyle}
+                            >Login</Link>
+
+                        }
+                        {
+                            auth && <Link
+                                href={'/logout'}
+                                style={navLinksStyle}
+                            >Logout</Link>
+                        }
+
                     </Box>
 
                 </Toolbar>
