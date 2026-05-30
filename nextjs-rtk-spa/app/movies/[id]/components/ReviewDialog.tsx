@@ -86,8 +86,6 @@ export default function ReviewDialog({movieId, reviewToEdit, open, setOpen}: Rev
 
     }
 
-
-
     const ratingChangeHandler =(value: number | null)=>{
         let num= value??0;
         setValue('rating', num);

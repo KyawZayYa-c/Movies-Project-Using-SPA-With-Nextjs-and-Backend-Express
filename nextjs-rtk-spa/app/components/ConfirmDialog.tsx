@@ -1,16 +1,10 @@
 'use client';
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
-import {MovieSchema, MovieSchemaForm} from "@/lib/schema/movieSchema";
-import {useEffect, useState} from "react";
 
 interface ConfirmDialogProps{
     message: string;
@@ -47,5 +41,3 @@ export default function ConfirmDialog({message, onOk, onCancel, dlgOpen, setOpen
         </React.Fragment>)
     }
 }
-
-//25

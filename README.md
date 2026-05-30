@@ -46,6 +46,13 @@ A modern, high-performance Movie Management System built with **Next.js 14** (Fr
 
 ---
 
+Needed
+nextjs-rtk-spa .env 
+***NEXT_PUBLIC_BASE_URL= "http://localhost:3000/api"
+
+Backend
+
+
 ## 🚀 Getting Started
 
 Follow these steps to set up the project locally:
